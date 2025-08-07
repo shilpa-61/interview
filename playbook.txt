@@ -1,9 +1,50 @@
 playbook 
 
-create_file.ml
+create_file.yml
+
 - hosts: webservers
   become: true
   tasks:
   - name: Create a file
     file: path=/home/TDI-Batch.txt state=touch
 
+install_package.yml
+
+---
+- hosts: webservers
+  become: true
+  tasks:
+   - name: Install Package git
+     yum: name=git state=present
+   - name: Install Package
+     yum: name=httpd state=present
+   - name: Start httpd service
+     service: name=httpd state=started
+
+os_condition.yml
+
+---
+
+- hosts: all
+  become: yes
+
+  tasks:
+  - name: Install Apache on Ubuntu
+    apt: name=apache2 state=present
+    when: ansible_os_family == "Debian"
+    ignore_errors: True
+
+  - name: Install httpd on Red Hat
+    yum: name=httpd state=present
+    when: ansible_os_family == "RedHat"
+    ignore_errors: True
+
+variable.yml
+
+- hosts: all
+  vars:
+   name: TDI-Batch
+  tasks:
+   - name: Ansible Basic Variable Example
+     debug:
+      msg: "{{ name }}"
