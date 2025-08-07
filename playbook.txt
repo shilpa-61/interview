@@ -1,6 +1,6 @@
-playbook 
+ 
 
-create_file.yml
+######### create_file.yml ##########
 
 - hosts: webservers
   become: true
@@ -8,7 +8,7 @@ create_file.yml
   - name: Create a file
     file: path=/home/TDI-Batch.txt state=touch
 
-install_package.yml
+########## install_package.yml ##########
 
 ---
 - hosts: webservers
@@ -21,7 +21,7 @@ install_package.yml
    - name: Start httpd service
      service: name=httpd state=started
 
-os_condition.yml
+########## os_condition.yml ############
 
 ---
 
@@ -39,7 +39,7 @@ os_condition.yml
     when: ansible_os_family == "RedHat"
     ignore_errors: True
 
-variable.yml
+######### variable.yml ###########
 
 - hosts: all
   vars:
@@ -47,4 +47,5 @@ variable.yml
   tasks:
    - name: Ansible Basic Variable Example
      debug:
+
       msg: "{{ name }}"
