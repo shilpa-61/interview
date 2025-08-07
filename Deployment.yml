@@ -25,6 +25,7 @@ selector:
     type: fornt-end
 
 
+
 kubectl apply -f deployment-defination.yml
 
 kubectl get deployments
@@ -32,3 +33,51 @@ kubectl get deployments
 kubectl rollout status deployment/myapp-deployment
 
 kubectl rollout history deployments
+
+pod.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+      app: myapp
+      type: fornt-end
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx  
+
+
+# kubectl create -f pod-defination.yml
+# kubectl get pod
+# kubectl describe pod nginx
+# kubectl get pods -o wide
+
+replicaset.yml
+
+apiVersion: apps/v1
+kind: Replicaset
+metadata:
+   name: forntend
+   labels:
+     app: my-app
+     tier: forntend
+spec:
+   replicas: 3
+   selector
+     matchLabels:
+       tier: forntend
+   template: 
+     meatadata:
+       labels:
+         tier: forntend
+      spec:
+         containers:
+           - name: nginx container
+             image: nginx      
+
+
+# kubectl apply -f repilcaset.yml             
+# kubectl get rs
+# kubectl describe name 
