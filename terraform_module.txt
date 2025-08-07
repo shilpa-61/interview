@@ -1,0 +1,93 @@
+Kubernetes code
+Deployment.yml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: myapp-deployment
+   labels:
+     app: my-app
+     tier: forntend
+spec:
+   template:
+     metadata:
+       name: myapp-pod
+       labels:
+          app: myapp
+          type: fornt-end
+      spec:
+        containers:
+        - name: nginx-container
+          image: nginx:latest
+replicas: 3
+selector:
+  matchLabels:
+    type: fornt-end
+
+
+
+kubectl apply -f deployment-defination.yml
+
+kubectl get deployments
+
+kubectl rollout status deployment/myapp-deployment
+
+kubectl rollout history deployments
+
+pod.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+      app: myapp
+      type: fornt-end
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx  
+
+
+# kubectl create -f pod-defination.yml
+# kubectl get pod
+# kubectl describe pod nginx
+# kubectl get pods -o wide
+
+how to write vpc module
+vpc.tf
+resource "aws_vpc" "name" {
+  cidr_block = var.cidr_block
+  
+  }
+
+variable.tf
+variable "cidr_block" {
+  description = "The CIDR block for the VPC"
+  type        = string
+  default     = "10.0.0.0/16"
+}
+main.tf
+provider "aws" {
+  region = "us-east-1"
+}
+
+module "s3" {
+    source = "./s3"
+    
+    }
+
+    module "VPC" {
+      source = "./vpc"
+    }
+s3.tf
+resource "aws_s3_bucket" "name" {
+  bucket = var.bucket_name
+
+}
+variable.tf
+variable "bucket_name" {
+  description = "The name of the S3 bucket"
+  type        = string
+  default = "my-buckke"
+}
