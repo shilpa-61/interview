@@ -1,0 +1,72 @@
+######### count.tf ########
+
+resource "aws_instance" "example" {
+  count         = 3
+  ami           = "ami-0123456789abcdef0" # Replace with your desired AMI ID
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "Instance-${count.index + 1}"
+
+  }
+}
+
+####### map.tf #######
+
+resource "aws_instance" "example" {
+  ami           = "ami-0c94855ba95c574c8"
+  instance_type = "t2.micro"
+  tags          = var.tag_values
+
+}
+
+
+
+variable "tag_values" {
+  description = "Map of tags to assign to the resources"
+  type        = map(string)
+  default = {
+    Environment = "Development"
+    Team        = "DevOps"
+    batch       = "March"
+    Class       = "Tech-Data"
+  }
+}
+
+########for_each.tf ########
+
+locals {
+ ec2 = {
+   "vm1" = { instance_type = "t2.micro", ami_id = "ami-0c7217cdde317cfec", name = "My-EC2-1"},
+   "vm2" = { instance_type = "t2.small", ami_id = "ami-079db87dc4c10ac91", name = "My-EC2-2" },
+   "vm3" = { instance_type = "t2.medium", ami_id = "ami-0c7217cdde317cfec", name = "My-EC2-3"}
+ }
+}  
+ 
+resource "aws_instance" "my_ec2" {
+ for_each = local.ec2
+ instance_type = each.value.instance_type
+ ami = each.value.ami_id
+
+ tags = {
+  name= "Instance-$(each.value.name)"
+ }
+
+}
+############# depends_on.tf #########
+
+resource "aws_instance" "example" {
+  ami           = "ami-0123456789abcdef0"
+  instance_type = "t2.micro"
+  subnet_id     = "subnet-0123456789abcdef0"
+  key_name      = "example-key"
+
+  depends_on = [aws_security_group.example]
+}
+
+
+resource "aws_security_group" "example" {
+  name        = "example-security-group"
+  description = "Example security group"
+  # Security group rules configuration...
+}
