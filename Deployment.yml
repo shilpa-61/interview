@@ -1,5 +1,5 @@
-Kubernetes code
-Deployment.yml
+
+########## Deployment.yml ###########
 
 apiVersion: apps/v1
 kind: Deployment
@@ -34,7 +34,7 @@ kubectl rollout status deployment/myapp-deployment
 
 kubectl rollout history deployments
 
-pod.yml
+############ pod.yml ##############
 
 apiVersion: v1
 kind: Pod
@@ -54,7 +54,7 @@ spec:
 # kubectl describe pod nginx
 # kubectl get pods -o wide
 
-replicaset.yml
+########### replicaset.yml #############
 
 apiVersion: apps/v1
 kind: Replicaset
@@ -80,4 +80,5 @@ spec:
 
 # kubectl apply -f repilcaset.yml             
 # kubectl get rs
+
 # kubectl describe name 
