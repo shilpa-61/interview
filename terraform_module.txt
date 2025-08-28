@@ -1,4 +1,11 @@
-
+######## EC2.tf#################
+resource "aws_EC2_instance" "anjshil"{
+ami_id = "ami-1234dhfgjkdnv"
+tags{
+env = "devops" 
+os  = "ubuntu"
+}
+}
 ########## s3 ##########
 resource "aws_s3_bucket" "name" {
   bucket = var.bucket_name
@@ -10,7 +17,6 @@ variable "bucket_name" {
   type        = string
   default = "my-buckke"
 }
-
 ######## main.tf ###########
 provider "aws" {
   region = "us-east-1"
@@ -35,3 +41,4 @@ variable "cidr_block" {
   type        = string
   default     = "10.0.0.0/16"
 }
+
