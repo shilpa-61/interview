@@ -1,0 +1,93 @@
+pipeline{
+agent-any
+  stages{
+    stage("build"){
+      steps{ sh "this is build stage" }
+    }
+    stage("test"){
+    steps{sh "this is test stage"}
+    }
+    stage("deploy"){
+    stpes{ sh "this is deploy stage"}
+    }
+  }
+  }
+###### paraller   ################
+pipeline {
+	agent any
+
+stages {
+	stage ('Parallel'){
+		parallel {
+			stage	('Stage-1')
+			{
+				steps{
+				echo "Welcome to Tech-data!"
+				sleep 5
+				}
+			}	
+			stage	('Stage-2')
+			{
+				steps{
+				echo "Keep Learning!!"
+				sleep 5
+				}
+			}
+			stage	('Stage-3')
+			{
+				steps{
+				echo "Keep Growing!!"
+				sleep 5
+				}
+			}	
+	
+
+		}
+	}
+	stage(Sequential-1)
+	{
+	  steps {
+		echo "This is sequential stage 1."
+	  }
+	}
+	
+	stage(Sequential-2)
+	{
+	  steps {
+		echo "This is sequential stage 2."
+	  }
+	}
+  }
+}
+
+########trigger############
+pipeline{
+	agent any
+
+	stages{
+		stage('Build another job')
+		{
+		 	steps {
+		  		build 'job-name'
+			}
+		}
+	}	
+}
+########workspace############
+
+pipeline {
+
+	agent{
+		node {customWorkspace '/data/mypipeline'}
+	}
+	
+		stages {
+			stage (create file){
+				steps{
+					sh 'touch NewFile'
+				}
+			}
+		}
+
+}
+  
